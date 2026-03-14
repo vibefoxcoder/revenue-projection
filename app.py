@@ -13,6 +13,26 @@ from pages.dashboard import render_dashboard
 from pages.data_entry import render_data_entry
 from pages.history import render_history
 
+# --- Password gate ---
+def check_password():
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
+
+    if st.session_state.authenticated:
+        return True
+
+    password = st.text_input("Password", type="password")
+    if password:
+        if password == st.secrets.get("app_password", ""):
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Incorrect password")
+    return False
+
+if not check_password():
+    st.stop()
+
 # Top navigation
 st.title("Revenue Tracker")
 col_nav, col_refresh = st.columns([3, 1])
