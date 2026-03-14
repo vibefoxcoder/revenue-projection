@@ -2,7 +2,7 @@
 
 import streamlit as st
 import pandas as pd
-from sheets import read_config, read_monthly_revenue, read_daily_revenue, delete_row
+from tracker.sheets import read_config, read_monthly_revenue, read_daily_revenue, delete_row
 
 
 def _get_ss_key():

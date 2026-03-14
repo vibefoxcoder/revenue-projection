@@ -5,8 +5,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import date
-from sheets import read_config, read_brokers, read_monthly_revenue, read_daily_revenue
-from calc import compute_all
+from tracker.sheets import read_config, read_brokers, read_monthly_revenue, read_daily_revenue
+from tracker.calc import compute_all
 
 
 def _get_ss_key():

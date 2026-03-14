@@ -4,7 +4,7 @@ import streamlit as st
 import gspread
 import pandas as pd
 from google.oauth2.service_account import Credentials
-from config import parse_config
+from tracker.config import parse_config
 
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]

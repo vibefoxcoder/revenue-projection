@@ -14,21 +14,28 @@ Tracks 8 brokers' costs and revenue, projects bonuses using run-rate extrapolati
 source venv/Scripts/activate
 pip install -r requirements.txt
 streamlit run app.py              # local dev
-python seed_data.py               # one-time: seed Google Sheets with baseline data
+python scripts/seed_data.py       # one-time: seed Google Sheets with baseline data
 ```
 
 ## Architecture
 
-- `calc.py` — Pure business logic (no Streamlit/gspread deps). All projection and bonus formulas.
-- `config.py` — Config loader/parser from Google Sheets config tab.
-- `sheets.py` — Google Sheets CRUD via gspread. Read functions cached with `@st.cache_data(ttl=300)`.
-- `app.py` — Streamlit entry point, page routing.
-- `pages/dashboard.py` — Metrics, charts, broker detail table.
-- `pages/data_entry.py` — Monthly revenue, daily snapshot, T&E update forms.
-- `pages/history.py` — View/delete past entries.
-- `seed_data.py` — One-time script to populate Google Sheets from hardcoded baseline data.
+```
+app.py                    # Streamlit entry point, page routing
+tracker/                  # core app modules
+  calc.py                 # Pure business logic (no Streamlit/gspread deps)
+  config.py               # Config loader/parser from Google Sheets
+  sheets.py               # Google Sheets CRUD via gspread (cached reads)
+pages/                    # Streamlit UI pages
+  dashboard.py            # Metrics, charts, broker detail table
+  data_entry.py           # Monthly revenue, daily snapshot, T&E forms
+  history.py              # View/delete past entries
+scripts/                  # one-time utilities
+  seed_data.py            # Populate Google Sheets with baseline data
+data/                     # reference files
+  Bonus_calculations.xlsx # Original spreadsheet (reference only)
+```
 
-## Business Logic (calc.py)
+## Business Logic (tracker/calc.py)
 
 Revenue split: 45% management / 55% desk. Bonus pool = 55% * (Revenue - 1% Promo) - Total Cost. Kelly gets 5% off top. Per-broker bonus proportional to revenue share. Costs in SGD converted to USD via configurable rate (default 1.29).
 

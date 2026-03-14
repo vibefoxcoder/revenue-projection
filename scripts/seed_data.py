@@ -1,6 +1,6 @@
 """One-time script: Seed Google Sheets with baseline data from Bonus_calculations.xlsx.
 
-Run locally: python seed_data.py
+Run locally: python scripts/seed_data.py
 
 Requires:
 - .streamlit/secrets.toml with gcp_service_account and spreadsheet_key
