@@ -10,3 +10,4 @@ build/
 .streamlit/secrets.toml
 *.json
 spread_sheet_key.txt
+2026_ytd.csv
