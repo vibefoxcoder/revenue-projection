@@ -42,33 +42,29 @@ def render_dashboard():
     projected_pool = results["projected_pool"]
     display = results["display"]
 
-    # --- Row 1: Metric Cards ---
-    c1, c2, c3, c4, c5 = st.columns(5)
+    # --- Metric Cards (2 per row for mobile) ---
+    # Row 1: Actuals
+    c1, c2, c3 = st.columns(3)
     with c1:
-        st.metric(
-            "Revenue (Actual)",
-            f"${actual_pool['total_revenue']:,.0f}",
-        )
+        st.metric("Revenue (Actual)", f"${actual_pool['total_revenue']:,.0f}")
     with c2:
-        st.metric(
-            "Revenue (Projected)",
-            f"${projected_pool['total_revenue']:,.0f}",
-        )
+        st.metric("Total Cost (6M)", f"${actual_pool['total_cost']:,.0f}")
     with c3:
-        st.metric(
-            "R/TC Ratio (Proj.)",
-            f"{projected_pool['rtc_ratio']:.2f}x",
-        )
+        st.metric("R/TC (Actual)", f"{actual_pool['rtc_ratio']:.2f}x")
+
+    # Row 2: Projections
+    c4, c5 = st.columns(2)
     with c4:
-        st.metric(
-            "Bonus Pool (Proj.)",
-            f"${projected_pool['distributable_pool']:,.0f}",
-        )
+        st.metric("Revenue (Projected)", f"${projected_pool['total_revenue']:,.0f}")
     with c5:
-        st.metric(
-            "Kelly 5% Override",
-            f"${projected_pool['kelly_override']:,.0f}",
-        )
+        st.metric("R/TC (Projected)", f"{projected_pool['rtc_ratio']:.2f}x")
+
+    # Row 3: Bonus
+    c5, c6 = st.columns(2)
+    with c5:
+        st.metric("Bonus Pool (Proj.)", f"${projected_pool['distributable_pool']:,.0f}")
+    with c6:
+        st.metric("Kelly 5% Override", f"${projected_pool['kelly_override']:,.0f}")
 
     st.markdown("---")
 
