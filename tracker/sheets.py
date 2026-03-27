@@ -86,12 +86,18 @@ def read_daily_revenue(_spreadsheet_key: str, period: str) -> pd.DataFrame:
 # --- Write operations ---
 
 
-def append_monthly_revenue(spreadsheet_key: str, rows: list[list]) -> None:
-    """Append monthly revenue rows. Each row: [period, month, broker, revenue_usd, entered_date]."""
+def save_monthly_revenue(spreadsheet_key: str, period: str, month: str, rows: list[list]) -> None:
+    """Save monthly revenue, replacing any existing entries for the same period+month."""
     client = get_client()
     ss = client.open_by_key(spreadsheet_key)
     ws = ss.worksheet("monthly_revenue")
-    ws.append_rows(rows, value_input_option="USER_ENTERED")
+    all_rows = ws.get_all_values()
+    header = all_rows[0]
+    # Keep rows that don't match this period+month
+    kept = [r for r in all_rows[1:] if not (r[0] == period and r[1] == month)]
+    # Rewrite sheet: header + kept rows + new rows
+    ws.clear()
+    ws.update(values=[header] + kept + rows, range_name="A1")
     st.cache_data.clear()
 
 

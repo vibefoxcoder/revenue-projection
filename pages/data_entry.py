@@ -4,7 +4,7 @@ import streamlit as st
 from datetime import date, datetime
 from tracker.sheets import (
     read_config, read_brokers, read_monthly_revenue, read_daily_revenue,
-    append_monthly_revenue, append_daily_revenue, update_broker_te,
+    save_monthly_revenue, append_daily_revenue, update_broker_te,
 )
 
 
@@ -80,7 +80,7 @@ def render_data_entry():
                     if rev > 0
                 ]
                 if rows:
-                    append_monthly_revenue(_get_ss_key(), rows)
+                    save_monthly_revenue(_get_ss_key(), period, selected_month, rows)
                     st.success(f"Saved {len(rows)} entries for {selected_month}")
                 else:
                     st.warning("No revenue entered (all zeros).")
